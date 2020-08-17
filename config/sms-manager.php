@@ -28,8 +28,8 @@ return [
     'clients' => [
 
         'allance' => [
-            'user' => env('ALLCANCE_USER')
-            'password' => env('ALLCANCE_PASSWORD')
+            'user' => env('ALLCANCE_USER'),
+            'password' => env('ALLCANCE_PASSWORD'),
         ],
     ]
 ];
