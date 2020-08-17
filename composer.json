@@ -1,0 +1,22 @@
+{
+    "name": "bnw/laravel-sms-manager",
+    "description": "SMS notification channel for laravel",
+    "require": {
+        "php": "^7.2",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/queue": "^6.0 || ^7.0",
+        "illuminate/notifications": "^6.0 || ^7.0"
+    },
+    "license": "GNU",
+    "authors": [
+        {
+            "name": "Lucas Veronezzi",
+            "email": "lucasveronezzi.ti@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "bnw\\SmsManager\\": "src"
+        }
+    }
+}
