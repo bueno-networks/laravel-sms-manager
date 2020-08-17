@@ -1,8 +1,8 @@
 <?php
 
-namespace bnw\SmsManager\Contracts;
+namespace Bnw\SmsManager\Contracts;
 
-use bnw\SmsManager\SmsMessage;
+use Bnw\SmsManager\SmsMessage;
 
 interface Sms
 {

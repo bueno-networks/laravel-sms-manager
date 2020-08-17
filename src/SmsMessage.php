@@ -1,6 +1,6 @@
 <?php
 
-namespace bnw\SmsManager;
+namespace Bnw\SmsManager;
 
 class SmsMessage
 {

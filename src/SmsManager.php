@@ -1,10 +1,11 @@
 <?php
 
-namespace bnw\SmsManager;
+namespace Bnw\SmsManager;
 
-use bnw\SmsManager\Clients\Allcance;
+use Bnw\SmsManager\Clients\Allcance;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class SmsManager {
 
@@ -41,7 +42,7 @@ class SmsManager {
      */
     public function driver($name = null)
     {
-        return $this->client($name)
+        return $this->client($name);
     }
 
     /**
@@ -107,7 +108,7 @@ class SmsManager {
      * Create an instance of the Allcance SMS client.
      *
      * @param  mixed  $config
-     * @return \bnw\SmsManager\Clients\Allcance
+     * @return \Bnw\SmsManager\Clients\Allcance
      */
     protected function createAllcanceDriver($config) : Allcance
     {

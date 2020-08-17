@@ -1,6 +1,6 @@
 <?php
 
-namespace bnw\SmsManager\Exceptions;
+namespace Bnw\SmsManager\Exceptions;
 
 use Exception;
 use Illuminate\Support\Arr;

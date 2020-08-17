@@ -1,9 +1,9 @@
 <?php
 
-namespace bnw\SmsManager\Clients;
+namespace Bnw\SmsManager\Clients;
 
-use bnw\SmsManager\Contracts\Sms as SmsContract;
-use bnw\SmsManager\Exceptions\CouldNotSendNotification;
+use Bnw\SmsManager\Contracts\Sms as SmsContract;
+use Bnw\SmsManager\Exceptions\CouldNotSendNotification;
 use GuzzleHttp\Client as HttpClient;
 
 class Allcance implements SmsContract

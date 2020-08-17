@@ -1,14 +1,14 @@
 <?php
 
-namespace bnw\SmsManager;
+namespace Bnw\SmsManager;
 
-use bnw\SmsManager\Contracts\Sms as SmsContract;
+use Bnw\SmsManager\Contracts\Sms as SmsContract;
 use Illuminate\Notifications\Notification;
 
 class SmsChannel
 {
     /**
-    * @param \bnw\SmsManager\Contracts\Sms $client
+    * @param \Bnw\SmsManager\Contracts\Sms $client
     */
     public function __construct(SmsContract $client)
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace bnw\SmsManager;
+namespace Bnw\SmsManager;
 
-use bnw\SmsManager\SmsManager;
-use bnw\SmsManager\Contracts\Sms as SmsContract;
+use Bnw\SmsManager\SmsManager;
+use Bnw\SmsManager\Contracts\Sms as SmsContract;
 use Illuminate\Support\ServiceProvider;
 
 class SmsServiceProvider extends ServiceProvider
