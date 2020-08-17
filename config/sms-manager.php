@@ -21,13 +21,13 @@ return [
     |
     | Here you may configure as many sms "clients" as you wish.
     |
-    | Supported Clients: "allance"
+    | Supported Clients: "allcance"
     |
     */
 
     'clients' => [
 
-        'allance' => [
+        'allcance' => [
             'user' => env('ALLCANCE_USER'),
             'password' => env('ALLCANCE_PASSWORD'),
         ],

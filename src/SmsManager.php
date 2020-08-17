@@ -90,7 +90,7 @@ class SmsManager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['sms.default'];
+        return $this->app['config']['sms-manager.default'];
     }
 
     /**
@@ -101,7 +101,7 @@ class SmsManager {
     */
     protected function getConfig($name)
     {
-        return $this->app['config']["sms.clients.{$name}"] ?: [];
+        return $this->app['config']["sms-manager.clients.{$name}"] ?: [];
     }
 
     /**

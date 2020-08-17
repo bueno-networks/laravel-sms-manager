@@ -2,6 +2,7 @@
 
 namespace Bnw\SmsManager\Clients;
 
+use Bnw\SmsManager\SmsMessage;
 use Bnw\SmsManager\Contracts\Sms as SmsContract;
 use Bnw\SmsManager\Exceptions\CouldNotSendNotification;
 use GuzzleHttp\Client as HttpClient;
