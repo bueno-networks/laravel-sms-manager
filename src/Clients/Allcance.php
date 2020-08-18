@@ -9,6 +9,7 @@ use Bnw\SmsManager\Contracts\Sms as SmsContract;
 use Bnw\SmsManager\Exceptions\CouldNotSendNotification;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Support\Str;
 
 class Allcance implements SmsContract
 {
@@ -93,7 +94,7 @@ class Allcance implements SmsContract
 
         $retMessage = $response['messages'][0];
 
-        if ($retMessage['status']['groupName'] === 'REJECTED') {
+        if (Str::startsWith($retMessage['status']['groupName'], 'REJECTED')) {
             throw new Exception("SMS responded with status REJECTED, cause: " . $retMessage['status']['description']);
         }
 
