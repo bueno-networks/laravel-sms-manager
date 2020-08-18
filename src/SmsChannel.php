@@ -3,7 +3,8 @@
 namespace Bnw\SmsManager;
 
 use Bnw\SmsManager\Contracts\Sms as SmsContract;
-use Illuminate\Support\Facades\DB as DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notification;
 
 class SmsChannel
@@ -57,20 +58,31 @@ class SmsChannel
 
     protected function createInDatabase(SmsResponse $response, $notifiable, $id)
     {
-        $model = $notifiable->routeNotificationFor('database')->find($id);
+        $model = $notifiable->routeNotificationFor('database');
+
+        if (!Schema::hasTable($model->getRelated()->getTable())) {
+            return;
+        }
+
+        $model = $model->find($id);
 
         $date = now();
 
         if (isset($model)) {
-            DB::table('sms_messages')->insert([
-                'id'                => $response->id
+            $data = [
                 'notification_id'   => $id,
                 'status'            => $response->status,
                 'to'                => $response->phone,
                 'body'              => $response->message,
                 'created_at'        => $date,
                 'updated_at'        => $date,
-            ]);
+            ];
+
+            if (isset($response->messageId)) {
+                $data['id'] = $response->messageId;
+            }
+
+            DB::table('sms_messages')->insert($data);
         }
     }
 }

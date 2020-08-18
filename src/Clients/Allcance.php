@@ -2,6 +2,7 @@
 
 namespace Bnw\SmsManager\Clients;
 
+use Exception;
 use Bnw\SmsManager\SmsMessage;
 use Bnw\SmsManager\SmsResponse;
 use Bnw\SmsManager\Contracts\Sms as SmsContract;
@@ -92,10 +93,14 @@ class Allcance implements SmsContract
 
         $retMessage = $response['messages'][0];
 
+        if ($retMessage['status']['groupName'] === 'REJECTED') {
+            throw new Exception("SMS responded with status REJECTED, cause: " . $retMessage['status']['description']);
+        }
+
         return (new SmsResponse)
             ->messageId($retMessage['messageId'])
             ->message($message->message)
-            ->status('sended')
+            ->status('sent')
             ->phone($phone);
     }
 
