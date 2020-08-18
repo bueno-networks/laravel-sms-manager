@@ -15,6 +15,7 @@ class CreateSmsMessagesTable extends Migration
     {
         Schema::create('sms_messages', function (Blueprint $table) {
             $table->string('id', 60)->primary();
+            $table->string('driver', 120);
             $table->uuid('notification_id');
             $table->foreign('notification_id')->references('id')->on('notifications');
             $table->string('status', 16);

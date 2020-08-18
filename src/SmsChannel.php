@@ -68,6 +68,7 @@ class SmsChannel
 
         $data = [
             'notification_id'   => $id,
+            'driver'            => $this->app['config']['sms-manager.default'],
             'status'            => $response->status,
             'to'                => $response->phone,
             'body'              => $response->message,
