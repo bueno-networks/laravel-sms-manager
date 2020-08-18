@@ -39,12 +39,12 @@ class SmsServiceProvider extends ServiceProvider
 
         // Pulish config.
         $this->publishes([
-            $dist => config_path('sms-manager'),
+            $dist => config_path('sms-manager.php'),
         ]);
 
         if (! class_exists('CreateSmsMessagesTable')) {
             $this->publishes([
-              __DIR__ . '/../database/migrations/create_sms_messages_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . 'create_sms_messages_table.php'),
+              __DIR__ . '/../database/create_sms_messages_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_sms_messages_table.php'),
             ], 'migrations');
         }
     }
