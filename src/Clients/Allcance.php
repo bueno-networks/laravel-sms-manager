@@ -3,8 +3,10 @@
 namespace Bnw\SmsManager\Clients;
 
 use Bnw\SmsManager\SmsMessage;
+use Bnw\SmsManager\SmsResponse;
 use Bnw\SmsManager\Contracts\Sms as SmsContract;
 use Bnw\SmsManager\Exceptions\CouldNotSendNotification;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as HttpClient;
 
 class Allcance implements SmsContract
@@ -34,14 +36,26 @@ class Allcance implements SmsContract
         $this->auth = $auth;
     }
 
-    public function sendMessages(array $phones, SmsMessage $message)
+    public function sendMessages(array $phones, SmsMessage $message) : array
     {
+        $responses = [];
+
         foreach($phones as $phone) {
-            $this->sendMessage($phone, $message);
+
+            try {
+                $responses[] = $this->sendMessage($phone, $message);
+            } catch (Exception $exception) {
+                if(count($responses) === 0) {
+                    throw new Exception($exception->getMessage(), $exception->getCode());
+                }
+            }
+
         }
+
+        return $responses;
     }
 
-    public function sendMessage(String $phone, SmsMessage $message)
+    public function sendMessage(String $phone, SmsMessage $message) : SmsResponse
     {
         try {
             $response = $this->httpClient->request('POST', 'sms/1/text/single', [
@@ -62,9 +76,27 @@ class Allcance implements SmsContract
             throw CouldNotSendNotification::serviceCommunicationError($exception);
         }
 
-        $body = json_decode($response->getBody(), true);
+        if ($response->getStatusCode() !== 200) {
+            throw CouldNotSendNotification::serviceRespondedWithAnHttpError($response);
+        }
 
-        dd($body);
+        $response = json_decode($response->getBody(), true);
+
+        if ($response === null) {
+            throw new Exception("SMS responded with response null");
+        }
+
+        if (!array_key_exists('messages', $response)) {
+            throw new Exception("SMS responded without value 'messages' in the json");
+        }
+
+        $retMessage = $response['messages'][0];
+
+        return (new SmsResponse)
+            ->messageId($retMessage['messageId'])
+            ->message($message->message)
+            ->status('sended')
+            ->phone($phone);
     }
 
     public function getHeaders() : array

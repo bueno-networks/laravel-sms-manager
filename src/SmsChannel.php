@@ -3,6 +3,7 @@
 namespace Bnw\SmsManager;
 
 use Bnw\SmsManager\Contracts\Sms as SmsContract;
+use Illuminate\Support\Facades\DB as DB;
 use Illuminate\Notifications\Notification;
 
 class SmsChannel
@@ -31,12 +32,45 @@ class SmsChannel
             return;
         }
 
-        $message = $notification->toSMS($notifiable);
-
-        if(is_array($phones)){
-            return $this->client->sendMessages($phones, $message);
+        if (is_array($phones) && count($phones) === 0) {
+            return;
         }
 
-        return $this->client->sendMessage($phones, $message);
+        $message = $notification->toSms($notifiable);
+
+        if (is_array($phones)) {
+            $responses = $this->client->sendMessages($phones, $message);
+
+            foreach ($responses as $response) {
+                if ($message->recordDb) {
+                    $this->createInDatabase($response, $notifiable, $notification->id);
+                }
+            }
+        } else {
+            $response = $this->client->sendMessage($phones, $message);
+
+            if ($message->recordDb) {
+                $this->createInDatabase($response, $notifiable, $notification->id);
+            }
+        }
+    }
+
+    protected function createInDatabase(SmsResponse $response, $notifiable, $id)
+    {
+        $model = $notifiable->routeNotificationFor('database')->find($id);
+
+        $date = now();
+
+        if (isset($model)) {
+            DB::table('sms_messages')->insert([
+                'id'                => $response->id
+                'notification_id'   => $id,
+                'status'            => $response->status,
+                'to'                => $response->phone,
+                'body'              => $response->message,
+                'created_at'        => $date,
+                'updated_at'        => $date,
+            ]);
+        }
     }
 }

@@ -20,7 +20,7 @@ class SmsServiceProvider extends ServiceProvider
 
         // Bind the contract of SMSContract to the default driver from SMSManager
         $this->app->bind(SmsContract::class, function($app) {
-            $client = $app->make(SmsManager::class)->driver();
+            return $app->make(SmsManager::class)->driver();
         });
     }
 
@@ -41,5 +41,11 @@ class SmsServiceProvider extends ServiceProvider
         $this->publishes([
             $dist => config_path('sms-manager'),
         ]);
+
+        if (! class_exists('CreateSmsMessagesTable')) {
+            $this->publishes([
+              __DIR__ . '/../database/migrations/create_sms_messages_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . 'create_sms_messages_table.php'),
+            ], 'migrations');
+        }
     }
 }

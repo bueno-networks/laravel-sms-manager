@@ -19,7 +19,7 @@ class CouldNotSendNotification extends Exception
 
         $message .= ":". json_decode($response->getBody());
 
-        return new static($message);
+        return new static($message, $response->getStatusCode());
     }
 
     /**
@@ -29,7 +29,7 @@ class CouldNotSendNotification extends Exception
      */
     public static function serviceRespondedWithAnApiError(array $response)
     {
-        return new static("SMS responded with an API error: {$response['code']}: {$response['message']}");
+        return new static("SMS responded with an API error: {$response['code']}: {$response['message']}", $response['code']);
     }
 
     /**
@@ -39,6 +39,6 @@ class CouldNotSendNotification extends Exception
      */
     public static function serviceCommunicationError(Exception $exception)
     {
-        return new static("Communication with SMS failed: {$exception->getCode()}: {$exception->getMessage()}");
+        return new static("Communication with SMS failed: {$exception->getCode()}: {$exception->getMessage()}", $exception->getCode());
     }
 }
