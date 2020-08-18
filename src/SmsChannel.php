@@ -60,29 +60,25 @@ class SmsChannel
     {
         $model = $notifiable->routeNotificationFor('database');
 
-        if (!Schema::hasTable($model->getRelated()->getTable())) {
+        if (!Schema::hasTable($model->getRelated()->getTable()) || !$model = $model->find($id)) {
             return;
         }
 
-        $model = $model->find($id);
-
         $date = now();
 
-        if (isset($model)) {
-            $data = [
-                'notification_id'   => $id,
-                'status'            => $response->status,
-                'to'                => $response->phone,
-                'body'              => $response->message,
-                'created_at'        => $date,
-                'updated_at'        => $date,
-            ];
+        $data = [
+            'notification_id'   => $id,
+            'status'            => $response->status,
+            'to'                => $response->phone,
+            'body'              => $response->message,
+            'created_at'        => $date,
+            'updated_at'        => $date,
+        ];
 
-            if (isset($response->messageId)) {
-                $data['id'] = $response->messageId;
-            }
-
-            DB::table('sms_messages')->insert($data);
+        if (isset($response->messageId)) {
+            $data['id'] = $response->messageId;
         }
+
+        DB::table('sms_messages')->insert($data);
     }
 }
