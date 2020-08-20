@@ -65,7 +65,7 @@ class Allcance implements SmsContract
                 'json' => [
                     'from' => 'Consaude',
                     'to' => $phone,
-                    'text' => $message->message
+                    'text' => $message->getMessage()
                 ],
             ]);
         } catch (RequestException $exception) {
@@ -100,7 +100,7 @@ class Allcance implements SmsContract
 
         return (new SmsResponse)
             ->messageId($retMessage['messageId'])
-            ->message($message->message)
+            ->message($message->getMessage())
             ->status('sent')
             ->phone($phone);
     }

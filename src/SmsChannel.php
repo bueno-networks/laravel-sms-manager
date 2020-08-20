@@ -43,14 +43,14 @@ class SmsChannel
             $responses = $this->client->sendMessages($phones, $message);
 
             foreach ($responses as $response) {
-                if ($message->recordDb) {
+                if ($message->getRecordDb()) {
                     $this->createInDatabase($response, $notifiable, $notification->id);
                 }
             }
         } else {
             $response = $this->client->sendMessage($phones, $message);
 
-            if ($message->recordDb) {
+            if ($message->getRecordDb()) {
                 $this->createInDatabase($response, $notifiable, $notification->id);
             }
         }
