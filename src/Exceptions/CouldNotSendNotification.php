@@ -17,8 +17,8 @@ class CouldNotSendNotification extends Exception
     {
         $message = "SMS responded with an HTTP error: {$response->getStatusCode()}";
 
-        $message .= ":". json_decode($response->getBody());
-
+        $message .= PHP_EOL . Psr7\str($response);
+        
         return new static($message, $response->getStatusCode());
     }
 
