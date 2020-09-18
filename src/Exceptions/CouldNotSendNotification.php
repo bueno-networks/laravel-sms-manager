@@ -3,6 +3,7 @@
 namespace Bnw\SmsManager\Exceptions;
 
 use Exception;
+use GuzzleHttp\Psr7;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
