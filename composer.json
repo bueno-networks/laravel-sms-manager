@@ -1,5 +1,5 @@
 {
-    "name": "bnw/laravel-sms-manager",
+    "name": "bueno-networks/laravel-sms-manager",
     "description": "SMS notification channel for laravel",
     "type": "library",
     "minimum-stability": "dev",
